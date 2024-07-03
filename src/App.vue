@@ -1,17 +1,19 @@
-<!-- eslint-disable no-unused-vars -->
 <script setup>
-  // Import des composants
-  import Header from './components/Header.vue'
-  import Footer from './components/Footer.vue'
-  import Details from './components/Details.vue'
-  import data from './assets/data.json'
-  import { reactive } from 'vue'
-  import { ref } from 'vue'
+// Import des composants
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+import Details from './components/Details.vue'
 
-  const productInfos = reactive(data)
-  const selectedVariant = ref(
-    data.variants[0]
-  )
+// Import du fichier JSON contenant les informations relatives au produit
+import data from './assets/data.json'
+
+// Import des fonctions 'reactive' et 'ref
+import { reactive, ref } from 'vue'
+
+// Création des objets réactifs
+const productInfo = reactive(data)
+
+const selectedVariant = ref(data.variants[0])
 </script>
 
 <template>
@@ -23,11 +25,11 @@
       <div class="container">
         <!-- Première colonne -->
         <div>
-          <!-- L'image sera ajoutée dans le chapitre qui lui est dédié -->
+          <img :src="selectedVariant.image.url" :alt="selectedVariant.image.alt" />
         </div>
 
         <!-- Deuxième colonne -->
-        <Details :productInfos="productInfos" :selectedVariant="selectedVariant" />
+        <Details :productInfo="productInfo" :selectedVariant="selectedVariant" />
       </div>
     </main>
 
@@ -36,18 +38,33 @@
 </template>
 
 <style scoped>
+/* Ici, il s'agit de style local donc nous stylisons uniquement la balise ayant la classe 'container' qui se trouve dans ce composant. Les autres ne sont pas impactées */
+.container {
+  display: flex;
+  height: calc(
+    100vh - var(--header-top-height) - var(--header-bottom-height) - var(--footer-height)
+  );
+}
+.container > div {
+  width: 50%;
+  /* Bordure temporaire pour visualiser le bloc */
+  /* border: 1px solid green; */
+}
 
-  .container {
-    display: flex;
-    height: calc(
-      100vh - var(--header-top-height) - var(--header-bottom-height) - var(--footer-height)
-    );
-  }
-  .container > div {
-    width: 50%;
-    border: 1px solid green;
-  }
-  .container > div:last-child {
-    padding: 25px 0 25px 100px;
-  }
+/* -- Première colonne ----------- */
+.container > div:first-child {
+  padding: 25px;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* -- Deuxième colonne ----------- */
+.container > div:last-child {
+  padding: 25px 0 25px 100px;
+}
 </style>
