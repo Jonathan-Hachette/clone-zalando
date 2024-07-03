@@ -1,6 +1,4 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-<script setup></script>
-
 <template>
   <header>
     <!-- 1er bloc -->
